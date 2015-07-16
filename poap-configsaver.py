@@ -22,6 +22,7 @@ import xml.etree.cElementTree as ET
 cdp_dict = {}
 
 def get_cdp_info():
+    #get the cdp info of mgmt0 to generate the config file name
     #grep cdp info of mgmt0 in XML
     raw_input = cli("show cdp neighbors int mgmt0")
 
@@ -72,15 +73,19 @@ def get_cdp_info():
             dev_list[thisline[1]]['switch_name'] = all_device_lines[idx-1]
 
 
-def save_to_server():
-    print()
+def save_to_server($server, $login, $password, $location, $file):
+    c = transfer("ftp", "$server", "$location","$file", user="$login", password="$password")
 
+def create_config_file($cdp_info):
+#as we are using CDP for PoAP the file needs to be in the following format : e.g. mgmt0 is connected to Core1 eth1/2 conf_Core1_eth1/2.cfg
+    
 
 def main():
     #get neighbor info of mgmt0
     get_cdp_info()
+    create_config_file()
     #Save
-   save_to_server()
+    save_to_server()
 
 
 
